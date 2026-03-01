@@ -2,7 +2,8 @@ import axios from 'axios';
 import { auth } from '../firebase';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || '/api',
+    withCredentials: true
 });
 
 // Add a request interceptor to attach Firebase Auth token

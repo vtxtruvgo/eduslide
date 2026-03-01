@@ -61,13 +61,11 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
+// Auto-initialize SQL pool
 const sqlService = require('./services/sqlService');
 const fs = require('fs');
 
-app.listen(PORT, async () => {
-    console.log(`Server running on port ${PORT}`);
-
-    // Auto-initialize SQL pool if settings exist
+const initDB = async () => {
     const settingsPath = path.join(__dirname, 'config/settings.json');
     if (process.env.DATABASE_URL) {
         try {
@@ -92,4 +90,9 @@ app.listen(PORT, async () => {
             console.error('Failed to auto-init SQL pool:', err.message);
         }
     }
-});
+};
+
+initDB();
+
+// Export the Express API for Vercel Serverless
+module.exports = app;
